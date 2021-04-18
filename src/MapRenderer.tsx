@@ -22,29 +22,24 @@ const Container = styled.div`
   transform-style: preserve-3d;
   height: 100%;
 
-  background: lightblue;
+  --background-color: hsl(50, 40%, 20%);
+  background: var(--background-color);
 `;
 
-const MapGeometry = styled.div<{
-  degrees: number;
-}>`
-  height: 100%;
-  //   transition: 1s all;
-  transform-origin: center;
-  transform-style: preserve-3d;
-
-  --deg: ${({ degrees }) => `${degrees}deg`};
+const MapGeometry = styled.div`
   --midpoint: calc(50% - calc(var(--cube-size) / 2));
 
-  //   transform: rotateX(90deg) translateY(var(--cube-size));
-  transform: rotateX(90deg) translateY(600px);
+  height: 100%;
+  transform-origin: center;
+  transform-style: preserve-3d;
+  transform: rotateX(90deg) translateY(calc(2 * var(--cube-size)));
 `;
 
 const CameraOffset = styled.div<{ position: Position }>`
   --x-pos: ${({ position }) => -1 * position.x};
   --y-pos: ${({ position }) => -1 * position.y};
 
-  transition: 1s all;
+  transition: 0.7s all;
   transform-style: preserve-3d;
   transform: translateX(calc(var(--cube-size) * var(--x-pos)))
     translateY(calc(var(--cube-size) * var(--y-pos)));
@@ -156,10 +151,9 @@ export function MapRenderer() {
 
   const animation = `rotate-${state.animation?.toLowerCase()}`;
 
-  console.log(state.direction, state.position, animation);
   return (
     <Container tabIndex={-1} onKeyDown={handleKeyDown}>
-      <MapGeometry degrees={directionToDegrees(state.direction)}>
+      <MapGeometry>
         <CameraRotation
           animation={animation}
           degrees={directionToDegrees(state.direction)}
@@ -168,9 +162,6 @@ export function MapRenderer() {
             <CameraPosition>
               {map.data.map((row, y) => {
                 return row.map((tile, x) => {
-                  // if (state.position.x === x && state.position.y === y) {
-                  //   return <div key={'X'}>XXXXXX</div>;
-                  // }
                   if (tile === 1) {
                     return <Cube key={`${x}:${y}`} x={x} y={y} />;
                   }

@@ -66,12 +66,12 @@ export function Cube(props: CubeProps) {
   const { x, y } = props;
   return (
     <CubeShape x={x} y={y}>
-      <Bottom />
+      {/* <Bottom /> */}
       <Left />
       <Right />
       <Back />
       <Front />
-      <Top />
+      {/* <Top /> */}
     </CubeShape>
   );
 }
