@@ -10,7 +10,6 @@ const CubeShape = styled.div<CubeProps>`
 const Face = styled.div`
   --color-base: 35, 100%;
   --color-l: 50%;
-  --wall-color: hsl(var(--color-base), var(--color-l));
 
   --color-top: hsl(var(--color-base), calc(var(--color-l) - 30%));
   --color-bottom: hsl(var(--color-base), calc(var(--color-l) - 20%));
@@ -25,7 +24,7 @@ const Face = styled.div`
   transform-style: preserve-3d;
   height: var(--cube-size);
   width: var(--cube-size);
-  background: var(--wall-color);
+  background: var(--color-top);
 `;
 
 const Top = styled(Face)`

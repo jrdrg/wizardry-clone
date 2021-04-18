@@ -25,22 +25,114 @@ const Container = styled.div`
   background: lightblue;
 `;
 
-const MapGeometry = styled.div<{ position: Position; degrees: number }>`
+const MapGeometry = styled.div<{
+  degrees: number;
+}>`
   height: 100%;
   //   transition: 1s all;
   transform-origin: center;
   transform-style: preserve-3d;
 
-  --x-pos: ${({ position }) => -1 * position.x};
-  --y-pos: ${({ position }) => -1 * position.y};
   --deg: ${({ degrees }) => `${degrees}deg`};
-
   --midpoint: calc(50% - calc(var(--cube-size) / 2));
 
-  transform: rotateX(90deg) translateY(var(--cube-size)) rotateZ(var(--deg))
-    translateX(var(--midpoint)) translateY(var(--midpoint))
-    translateX(calc(var(--cube-size) * var(--x-pos)))
+  //   transform: rotateX(90deg) translateY(var(--cube-size));
+  transform: rotateX(90deg) translateY(600px);
+`;
+
+const CameraOffset = styled.div<{ position: Position }>`
+  --x-pos: ${({ position }) => -1 * position.x};
+  --y-pos: ${({ position }) => -1 * position.y};
+
+  transition: 1s all;
+  transform-style: preserve-3d;
+  transform: translateX(calc(var(--cube-size) * var(--x-pos)))
     translateY(calc(var(--cube-size) * var(--y-pos)));
+`;
+
+const CameraRotation = styled.div<{
+  animation: string | null;
+  degrees: number;
+}>`
+  --deg: ${({ degrees }) => `${degrees}deg`};
+
+  transform-style: preserve-3d;
+  transform: rotateZ(var(--deg));
+
+  animation: ${({ animation }) => `${animation} 0.3s linear`};
+
+  @keyframes rotate-n-w {
+    0% {
+      transform: rotateZ(0deg);
+    }
+    100% {
+      transform: rotateZ(90deg);
+    }
+  }
+  @keyframes rotate-w-n {
+    0% {
+      transform: rotateZ(90deg);
+    }
+    100% {
+      transform: rotateZ(0deg);
+    }
+  }
+
+  @keyframes rotate-n-e {
+    0% {
+      transform: rotateZ(0deg);
+    }
+    100% {
+      transform: rotateZ(-90deg);
+    }
+  }
+  @keyframes rotate-e-n {
+    0% {
+      transform: rotateZ(-90deg);
+    }
+    100% {
+      transform: rotateZ(0deg);
+    }
+  }
+
+  @keyframes rotate-s-w {
+    0% {
+      transform: rotateZ(180deg);
+    }
+    100% {
+      transform: rotateZ(90deg);
+    }
+  }
+  @keyframes rotate-w-s {
+    0% {
+      transform: rotateZ(90deg);
+    }
+    100% {
+      transform: rotateZ(180deg);
+    }
+  }
+
+  @keyframes rotate-s-e {
+    0% {
+      transform: rotateZ(180deg);
+    }
+    100% {
+      transform: rotateZ(270deg);
+    }
+  }
+  @keyframes rotate-e-s {
+    0% {
+      transform: rotateZ(270deg);
+    }
+    100% {
+      transform: rotateZ(180deg);
+    }
+  }
+`;
+
+const CameraPosition = styled.div`
+  transform-style: preserve-3d;
+  transform: translateX(var(--midpoint)) translateY(var(--midpoint));
 `;
 
 export function MapRenderer() {
@@ -62,24 +154,32 @@ export function MapRenderer() {
     [rotate]
   );
 
-  console.log(state.direction, state.position);
+  const animation = `rotate-${state.animation?.toLowerCase()}`;
+
+  console.log(state.direction, state.position, animation);
   return (
     <Container tabIndex={-1} onKeyDown={handleKeyDown}>
-      <MapGeometry
-        position={state.position}
-        degrees={directionToDegrees(state.direction)}
-      >
-        {map.data.map((row, y) => {
-          return row.map((tile, x) => {
-            // if (state.position.x === x && state.position.y === y) {
-            //   return <div key={'X'}>XXXXXX</div>;
-            // }
-            if (tile === 1) {
-              return <Cube key={`${x}:${y}`} x={x} y={y} />;
-            }
-            return null;
-          });
-        })}
+      <MapGeometry degrees={directionToDegrees(state.direction)}>
+        <CameraRotation
+          animation={animation}
+          degrees={directionToDegrees(state.direction)}
+        >
+          <CameraOffset position={state.position}>
+            <CameraPosition>
+              {map.data.map((row, y) => {
+                return row.map((tile, x) => {
+                  // if (state.position.x === x && state.position.y === y) {
+                  //   return <div key={'X'}>XXXXXX</div>;
+                  // }
+                  if (tile === 1) {
+                    return <Cube key={`${x}:${y}`} x={x} y={y} />;
+                  }
+                  return null;
+                });
+              })}
+            </CameraPosition>
+          </CameraOffset>
+        </CameraRotation>
       </MapGeometry>
     </Container>
   );

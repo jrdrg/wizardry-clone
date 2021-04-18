@@ -3,8 +3,12 @@ import { isWalkable, MapData } from './mapUtils';
 import type { Direction, Rotation } from './types';
 import { assertNever } from './utils';
 
+// type Animation = 'N-E' | 'N-W' | 'E-N' | 'E-S' | 'S-E' | 'S-W' | 'W-N' | 'W-S';
+type DirectionAnimation = `${Direction}-${Direction}`;
+
 type State = {
   map: MapData;
+  animation: DirectionAnimation | null;
   direction: Direction;
   position: {
     x: number;
@@ -29,15 +33,23 @@ const movement = {
 function reducer(state: State, action: Action): State {
   switch (action.type) {
     case 'rotateLeft': {
+      const prevDir = state.direction;
+      const newDir = rotate90(state.direction, 'L');
+      const animation = `${prevDir}-${newDir}` as DirectionAnimation;
       return {
         ...state,
-        direction: rotate90(state.direction, 'L'),
+        animation,
+        direction: newDir,
       };
     }
     case 'rotateRight': {
+      const prevDir = state.direction;
+      const newDir = rotate90(state.direction, 'R');
+      const animation = `${prevDir}-${newDir}` as DirectionAnimation;
       return {
         ...state,
-        direction: rotate90(state.direction, 'R'),
+        animation,
+        direction: newDir,
       };
     }
     case 'move': {
@@ -88,6 +100,7 @@ function rotate90(currentDirection: Direction, rotation: Rotation): Direction {
 
 export function useMapPosition(mapData: MapData) {
   const [state, dispatch] = useReducer(reducer, {
+    animation: null,
     map: mapData,
     direction: 'N',
     position: mapData.start,
