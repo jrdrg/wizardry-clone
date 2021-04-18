@@ -5,11 +5,12 @@ import { MapRenderer } from './MapRenderer';
 
 const GlobalStyles = createGlobalStyle`
 :root {
-    --border-color: rgba(100, 100, 100, 1);
+  --border-color: rgba(100, 100, 100, 1);
+  --cube-size: 300px;
 }
 body,html {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 `;
 
@@ -26,7 +27,7 @@ export function App() {
     <>
       <GlobalStyles />
       <AppContainer>
-        test
+        <div>test</div>
         <MapRenderer />
       </AppContainer>
     </>
