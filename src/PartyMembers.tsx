@@ -16,12 +16,6 @@ const Container = styled.div`
       flex-direction: column;
     }
   }
-
-  @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
-    & {
-      flex-direction: column;
-    }
-  }
 `;
 
 const CharacterContainer = styled.div`
