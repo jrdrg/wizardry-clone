@@ -16,7 +16,6 @@ const Container = styled.div`
     outline: none;
   }
 
-  --background-color: hsl(50, 40%, 5%);
   background: var(--background-color);
 
   border: 1px solid var(--border-color);
