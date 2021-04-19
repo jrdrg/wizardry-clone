@@ -21,20 +21,12 @@ const Face = styled.div`
   --cube-translate: calc(var(--cube-size) / 2);
 
   position: absolute;
+  box-sizing: border-box;
   transform-style: preserve-3d;
+  backface-visibility: hidden;
   height: var(--cube-size);
   width: var(--cube-size);
   background: var(--color-top);
-`;
-
-const Top = styled(Face)`
-  background-color: var(--color-top);
-  transform: rotateX(0deg) translateZ(var(--cube-translate));
-`;
-
-const Bottom = styled(Face)`
-  background-color: var(--color-bottom);
-  transform: rotateX(180deg) translateZ(var(--cube-translate));
 `;
 
 const Left = styled(Face)`
@@ -62,16 +54,15 @@ type CubeProps = {
   y: number;
 };
 
+// Don't bother rendering top and bottom, because we'll never see them anyway
 export function Cube(props: CubeProps) {
   const { x, y } = props;
   return (
     <CubeShape x={x} y={y}>
-      {/* <Bottom /> */}
       <Left />
       <Right />
       <Back />
       <Front />
-      {/* <Top /> */}
     </CubeShape>
   );
 }

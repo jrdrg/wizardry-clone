@@ -1,4 +1,5 @@
 import { useCallback, useReducer } from 'react';
+
 import { isWalkable, MapData } from './mapUtils';
 import type { Direction, Rotation } from './types';
 import { assertNever } from './utils';

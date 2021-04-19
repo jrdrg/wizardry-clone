@@ -7,6 +7,9 @@ const GlobalStyles = createGlobalStyle`
 :root {
   --border-color: rgba(100, 100, 100, 1);
   --cube-size: 300px;
+
+  --minimap-z-index: 1;
+  --minimap-height: 15vh;
 }
 body,html {
   margin: 0;

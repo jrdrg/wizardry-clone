@@ -7,6 +7,7 @@ import type { Position } from './types';
 import { useMapPosition } from './useMapPosition';
 
 import { Cube } from './Cube';
+import { Minimap } from './Minimap';
 
 const map = convertToMap(mapData.map, mapData.start);
 
@@ -15,15 +16,15 @@ const Container = styled.div`
     outline: none;
   }
 
+  --background-color: hsl(50, 40%, 20%);
+  background: var(--background-color);
+
   border: 1px solid var(--border-color);
   flex: 1;
   overflow: hidden;
-  perspective: 300px;
+  perspective: calc(var(--cube-size) * 0.9);
   transform-style: preserve-3d;
   height: 100%;
-
-  --background-color: hsl(50, 40%, 20%);
-  background: var(--background-color);
 `;
 
 const MapGeometry = styled.div`
@@ -33,28 +34,6 @@ const MapGeometry = styled.div`
   transform-origin: center;
   transform-style: preserve-3d;
   transform: rotateX(90deg) translateY(calc(2 * var(--cube-size)));
-`;
-
-const CameraOffset = styled.div<{ position: Position }>`
-  --x-pos: ${({ position }) => -1 * position.x};
-  --y-pos: ${({ position }) => -1 * position.y};
-
-  transition: 0.7s all;
-  transform-style: preserve-3d;
-  transform: translateX(calc(var(--cube-size) * var(--x-pos)))
-    translateY(calc(var(--cube-size) * var(--y-pos)));
-`;
-
-const CameraRotation = styled.div<{
-  animation: string | null;
-  degrees: number;
-}>`
-  --deg: ${({ degrees }) => `${degrees}deg`};
-
-  transform-style: preserve-3d;
-  transform: rotateZ(var(--deg));
-
-  animation: ${({ animation }) => `${animation} 0.3s linear`};
 
   @keyframes rotate-n-w {
     0% {
@@ -125,6 +104,28 @@ const CameraRotation = styled.div<{
   }
 `;
 
+const CameraOffset = styled.div<{ position: Position }>`
+  --x-pos: ${({ position }) => -1 * position.x};
+  --y-pos: ${({ position }) => -1 * position.y};
+
+  transition: 0.7s all;
+  transform-style: preserve-3d;
+  transform: translateX(calc(var(--cube-size) * var(--x-pos)))
+    translateY(calc(var(--cube-size) * var(--y-pos)));
+`;
+
+const CameraRotation = styled.div<{
+  animation: string | null;
+  degrees: number;
+}>`
+  --deg: ${({ degrees }) => `${degrees}deg`};
+
+  transform-style: preserve-3d;
+  transform: rotateZ(var(--deg));
+
+  animation: ${({ animation }) => `${animation} 0.3s linear`};
+`;
+
 const CameraPosition = styled.div`
   transform-style: preserve-3d;
   transform: translateX(var(--midpoint)) translateY(var(--midpoint));
@@ -135,24 +136,26 @@ export function MapRenderer() {
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLElement>) => {
-      console.log('code', e.code);
-      if (e.code === 'ArrowLeft') {
+      if (e.code === 'ArrowLeft' || e.code === 'KeyA') {
         rotate('L');
-      } else if (e.code === 'ArrowRight') {
+      } else if (e.code === 'ArrowRight' || e.code === 'KeyD') {
         rotate('R');
-      } else if (e.code === 'ArrowUp') {
+      } else if (e.code === 'ArrowUp' || e.code === 'KeyW') {
         move('F');
-      } else if (e.code === 'ArrowDown') {
+      } else if (e.code === 'ArrowDown' || e.code === 'KeyS') {
         move('B');
       }
     },
-    [rotate]
+    [move, rotate]
   );
 
-  const animation = `rotate-${state.animation?.toLowerCase()}`;
+  const animation = state.animation
+    ? `rotate-${state.animation.toLowerCase()}`
+    : null;
 
   return (
     <Container tabIndex={-1} onKeyDown={handleKeyDown}>
+      <Minimap map={map} position={state.position} />
       <MapGeometry>
         <CameraRotation
           animation={animation}
