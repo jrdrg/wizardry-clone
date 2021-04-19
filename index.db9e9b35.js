@@ -188,6 +188,11 @@ function e(e){return e&&e.__esModule?e.default:e}var t,n,r,a,l=!1;function o(e){
       flex-direction: column;
     }
   }
+  @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+    & {
+      flex-direction: column;
+    }
+  }
 `,wm=Hh.div`
   color: white;
   flex: 1;
@@ -241,4 +246,4 @@ body,html {
   flex-direction: column;
   position: relative;
 `;function Rm(){return ge.createElement(ge.Fragment,null,ge.createElement(Tm,null),ge.createElement(Om,null,ge.createElement(zm,null,"Wizardry clone"),ge.createElement(Lm,null,ge.createElement(vm,null),ge.createElement(Nm,null))))}Xf.render(ge.createElement(Rm,null),document.getElementById("app"));
-//# sourceMappingURL=index.77719989.js.map
+//# sourceMappingURL=index.db9e9b35.js.map
