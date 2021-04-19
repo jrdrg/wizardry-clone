@@ -229,22 +229,24 @@ function e(e){return e&&e.__esModule?e.default:e}var t,n,r,a,l=!1;function o(e){
 body,html {
   margin: 0;
   padding: 0;
+  
   font-family: 'EB Garamond', serif;
+  min-height: -webkit-fill-available;
 }
 `,zm=Hh.div`
-  background-color: var(--background-color);
-  padding: var(--base-padding);
-  color: var(--text-color);
-`,Om=Hh.div`
-  height: 100vh;
+  height: 100%;
   width: 100vw;
 
   display: flex;
   flex-direction: column;
+`,Om=Hh.div`
+  background-color: var(--background-color);
+  padding: var(--base-padding);
+  color: var(--text-color);
 `,Lm=Hh.div`
   height: 100%;
   display: flex;
   flex-direction: column;
   position: relative;
-`;function Rm(){return ge.createElement(ge.Fragment,null,ge.createElement(Tm,null),ge.createElement(Om,null,ge.createElement(zm,null,"Wizardry clone"),ge.createElement(Lm,null,ge.createElement(vm,null),ge.createElement(Nm,null))))}Xf.render(ge.createElement(Rm,null),document.getElementById("app"));
-//# sourceMappingURL=index.b5859967.js.map
+`;function Rm(){return ge.createElement(ge.Fragment,null,ge.createElement(Tm,null),ge.createElement(zm,null,ge.createElement(Om,null,"Wizardry clone"),ge.createElement(Lm,null,ge.createElement(vm,null),ge.createElement(Nm,null))))}Xf.render(ge.createElement(Rm,null),document.getElementById("app"));
+//# sourceMappingURL=index.51ff22ee.js.map
