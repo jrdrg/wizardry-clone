@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import mapData from './map.json';
 
@@ -132,6 +132,7 @@ const CameraPosition = styled.div`
 
 export function MapRenderer() {
   const { state, rotate, move } = useMapPosition(map);
+  const viewportRef = useRef<HTMLDivElement>(null);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLElement>) => {
@@ -148,6 +149,37 @@ export function MapRenderer() {
     [move, rotate]
   );
 
+  const handleClick = useCallback(
+    (e: React.MouseEvent<HTMLElement>) => {
+      const rect = viewportRef.current?.getBoundingClientRect();
+      const offsetLeft = rect?.left ?? 0;
+      const offsetTop = rect?.top ?? 0;
+
+      const clickX = e.clientX - offsetLeft;
+      const clickY = e.clientY - offsetTop;
+
+      if (rect) {
+        const leftPoint = rect.width / 4;
+        const rightPoint = (rect.width / 4) * 3;
+        const forwardPoint = rect.height / 4;
+        const backPoint = (rect.height / 4) * 3;
+
+        if (clickX <= leftPoint) {
+          rotate('L');
+        } else if (clickX >= rightPoint) {
+          rotate('R');
+        } else if (clickY <= forwardPoint) {
+          move('F');
+        } else if (clickY >= backPoint) {
+          move('B');
+        }
+      }
+
+      return null;
+    },
+    [move, rotate]
+  );
+
   const animation = state.animation
     ? `rotate-${state.animation.toLowerCase()}`
     : null;
@@ -155,7 +187,12 @@ export function MapRenderer() {
   return (
     <>
       <Minimap map={map} position={state.position} />
-      <Container tabIndex={-1} onKeyDown={handleKeyDown}>
+      <Container
+        tabIndex={-1}
+        ref={viewportRef}
+        onKeyDown={handleKeyDown}
+        onClick={handleClick}
+      >
         <MapGeometry>
           <CameraRotation
             animation={animation}
