@@ -174,7 +174,7 @@ function e(e){return e&&e.__esModule?e.default:e}var t,n,r,a,l=!1;function o(e){
 `,ym=Hh.div`
   transform-style: preserve-3d;
   transform: translateX(var(--midpoint)) translateY(var(--midpoint));
-`;function vm(){const{state:e,rotate:t,move:n}=function(e){const[t,n]=ve().useReducer(Yh,{animation:null,map:e,direction:"N",position:e.start});return{state:t,rotate:ve().useCallback((e=>{switch(e){case"L":return n({type:"rotateLeft"});case"R":return n({type:"rotateRight"});default:return Kh()}}),[n]),move:ve().useCallback((e=>n({type:"move",moveDirection:e})),[n])}}(cm),r=ve().useCallback((e=>{"ArrowLeft"===e.code||"KeyA"===e.code?t("L"):"ArrowRight"===e.code||"KeyD"===e.code?t("R"):"ArrowUp"===e.code||"KeyW"===e.code?n("F"):"ArrowDown"!==e.code&&"KeyS"!==e.code||n("B")}),[n,t]),a=e.animation?`rotate-${e.animation.toLowerCase()}`:null;return ge.createElement(pm,{tabIndex:-1,onKeyDown:r},ge.createElement(sm,{map:cm,position:e.position}),ge.createElement(hm,null,ge.createElement(gm,{animation:a,degrees:(l=e.direction,{N:0,W:90,S:180,E:-90}[l])},ge.createElement(mm,{position:e.position},ge.createElement(ym,null,cm.data.map(((e,t)=>e.map(((e,n)=>1===e?ge.createElement(am,{key:`${n}:${t}`,x:n,y:t}):null)))))))));var l}ve();const bm=Hh.div`
+`;function vm(){const{state:e,rotate:t,move:n}=function(e){const[t,n]=ve().useReducer(Yh,{animation:null,map:e,direction:"N",position:e.start});return{state:t,rotate:ve().useCallback((e=>{switch(e){case"L":return n({type:"rotateLeft"});case"R":return n({type:"rotateRight"});default:return Kh()}}),[n]),move:ve().useCallback((e=>n({type:"move",moveDirection:e})),[n])}}(cm),r=ve().useCallback((e=>{"ArrowLeft"===e.code||"KeyA"===e.code?t("L"):"ArrowRight"===e.code||"KeyD"===e.code?t("R"):"ArrowUp"===e.code||"KeyW"===e.code?n("F"):"ArrowDown"!==e.code&&"KeyS"!==e.code||n("B")}),[n,t]),a=e.animation?`rotate-${e.animation.toLowerCase()}`:null;return ge.createElement(ge.Fragment,null,ge.createElement(sm,{map:cm,position:e.position}),ge.createElement(pm,{tabIndex:-1,onKeyDown:r},ge.createElement(hm,null,ge.createElement(gm,{animation:a,degrees:(l=e.direction,{N:0,W:90,S:180,E:-90}[l])},ge.createElement(mm,{position:e.position},ge.createElement(ym,null,cm.data.map(((e,t)=>e.map(((e,n)=>1===e?ge.createElement(am,{key:`${n}:${t}`,x:n,y:t}):null))))))))));var l}ve();const bm=Hh.div`
   background-color: var(--background-color);
 
   display: flex;
@@ -238,5 +238,6 @@ body,html {
   height: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
 `;function Rm(){return ge.createElement(ge.Fragment,null,ge.createElement(Tm,null),ge.createElement(Om,null,ge.createElement(zm,null,"Wizardry clone"),ge.createElement(Lm,null,ge.createElement(vm,null),ge.createElement(Nm,null))))}Xf.render(ge.createElement(Rm,null),document.getElementById("app"));
-//# sourceMappingURL=index.db0080ff.js.map
+//# sourceMappingURL=index.a51aeaf1.js.map
