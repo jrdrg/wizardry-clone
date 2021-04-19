@@ -206,7 +206,7 @@ function e(e){return e&&e.__esModule?e.default:e}var t,n,r,a,l=!1;function o(e){
   flex-direction: row;
 `;function _m({character:e}){return ge.createElement(wm,null,ge.createElement(km,null,e.name),ge.createElement(Sm,null,e.class),ge.createElement(Em,null,e.hp,"/",e.hp),ge.createElement(xm,null,e.mp,"/",e.mp))}const Pm=[{name:"Aragorn",class:"Fighter",hp:10,mp:0},{name:"Bilbo",class:"Thief",hp:6,mp:0},{name:"Gimli",class:"Fighter",hp:10,mp:0},{name:"Gandalf",class:"Wizard",hp:5,mp:10},{name:"Legolas",class:"Archer",hp:8,mp:0},{name:"Sam",class:"Healer",hp:8,mp:8}];function Nm(){const[e,t,n,r,a,l]=Pm;return ge.createElement(bm,null,ge.createElement(Cm,null,ge.createElement(_m,{character:e}),ge.createElement(_m,{character:t}),ge.createElement(_m,{character:n})),ge.createElement(Cm,null,ge.createElement(_m,{character:r}),ge.createElement(_m,{character:a}),ge.createElement(_m,{character:l})))}const Tm=(function(e){for(var t=arguments.length,n=new Array(t>1?t-1:0),r=1;r<t;r++)n[r-1]=arguments[r];var a=Oh.apply(void 0,[e].concat(n)),l="sc-global-"+Mh(JSON.stringify(a)),o=new Qh(a,l);function i(e){var t=wh(),n=kh(),r=ve().useContext(Bh),a=ve().useRef(t.allocateGSInstance(l)).current;return ve().useLayoutEffect((function(){return u(a,e,t,r,n),function(){return o.removeStyles(a,t)}}),[a,e,t,r,n]),null}function u(e,t,n,r,a){if(o.isStatic)o.renderStyles(e,$p,n,a);else{var l=Tp({},t,{theme:Lh(t,r,i.defaultProps)});o.renderStyles(e,l,n,a)}}return ge.memo(i)})`
 :root {
-  --border-color: rgba(100, 100, 100, 1);
+  --border-color: rgba(100, 100, 99, 1);
   --background-color: hsl(50, 40%, 5%);
   --text-color: rgba(200, 200, 200, 1);
 
@@ -239,4 +239,4 @@ body,html {
   display: flex;
   flex-direction: column;
 `;function Rm(){return ge.createElement(ge.Fragment,null,ge.createElement(Tm,null),ge.createElement(Om,null,ge.createElement(zm,null,"Wizardry clone"),ge.createElement(Lm,null,ge.createElement(vm,null),ge.createElement(Nm,null))))}Xf.render(ge.createElement(Rm,null),document.getElementById("app"));
-//# sourceMappingURL=index.400e80eb.js.map
+//# sourceMappingURL=index.db0080ff.js.map
