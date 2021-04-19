@@ -6,7 +6,7 @@ import { PartyMembers } from './PartyMembers';
 
 const GlobalStyles = createGlobalStyle`
 :root {
-  --border-color: rgba(100, 100, 100, 1);
+  --border-color: rgba(100, 100, 99, 1);
   --background-color: hsl(50, 40%, 5%);
   --text-color: rgba(200, 200, 200, 1);
 
@@ -22,8 +22,18 @@ const GlobalStyles = createGlobalStyle`
 body,html {
   margin: 0;
   padding: 0;
+  
   font-family: 'EB Garamond', serif;
+  min-height: -webkit-fill-available;
 }
+`;
+
+const AppContainer = styled.div`
+  height: 100%;
+  width: 100vw;
+
+  display: flex;
+  flex-direction: column;
 `;
 
 const Navbar = styled.div`
@@ -32,18 +42,11 @@ const Navbar = styled.div`
   color: var(--text-color);
 `;
 
-const AppContainer = styled.div`
-  height: 100vh;
-  width: 100vw;
-
-  display: flex;
-  flex-direction: column;
-`;
-
 const MainLayout = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
 `;
 
 export function App() {

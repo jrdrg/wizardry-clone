@@ -153,27 +153,29 @@ export function MapRenderer() {
     : null;
 
   return (
-    <Container tabIndex={-1} onKeyDown={handleKeyDown}>
+    <>
       <Minimap map={map} position={state.position} />
-      <MapGeometry>
-        <CameraRotation
-          animation={animation}
-          degrees={directionToDegrees(state.direction)}
-        >
-          <CameraOffset position={state.position}>
-            <CameraPosition>
-              {map.data.map((row, y) => {
-                return row.map((tile, x) => {
-                  if (tile === 1) {
-                    return <Cube key={`${x}:${y}`} x={x} y={y} />;
-                  }
-                  return null;
-                });
-              })}
-            </CameraPosition>
-          </CameraOffset>
-        </CameraRotation>
-      </MapGeometry>
-    </Container>
+      <Container tabIndex={-1} onKeyDown={handleKeyDown}>
+        <MapGeometry>
+          <CameraRotation
+            animation={animation}
+            degrees={directionToDegrees(state.direction)}
+          >
+            <CameraOffset position={state.position}>
+              <CameraPosition>
+                {map.data.map((row, y) => {
+                  return row.map((tile, x) => {
+                    if (tile === 1) {
+                      return <Cube key={`${x}:${y}`} x={x} y={y} />;
+                    }
+                    return null;
+                  });
+                })}
+              </CameraPosition>
+            </CameraOffset>
+          </CameraRotation>
+        </MapGeometry>
+      </Container>
+    </>
   );
 }

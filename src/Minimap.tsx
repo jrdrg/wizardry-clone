@@ -33,6 +33,7 @@ const MapRow = styled.div`
   flex: 1;
   display: flex;
   justify-content: space-between;
+  height: 100%;
 `;
 
 const Tile = styled.div<{
