@@ -8,7 +8,7 @@ const CubeShape = styled.div<CubeProps>`
 `;
 
 const Face = styled.div`
-  --color-base: 35, 100%;
+  --color-base: 40, 10%;
   --color-l: 50%;
 
   --color-top: hsl(var(--color-base), calc(var(--color-l) - 30%));

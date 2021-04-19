@@ -16,13 +16,13 @@ const Container = styled.div`
     outline: none;
   }
 
-  --background-color: hsl(50, 40%, 20%);
+  --background-color: hsl(50, 40%, 5%);
   background: var(--background-color);
 
   border: 1px solid var(--border-color);
   flex: 1;
   overflow: hidden;
-  perspective: calc(var(--cube-size) * 0.9);
+  perspective: calc(var(--cube-size) * 1);
   transform-style: preserve-3d;
   height: 100%;
 `;
