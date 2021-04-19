@@ -59,6 +59,7 @@ function e(e){return e&&e.__esModule?e.default:e}var t,n,r,a,l=!1;function o(e){
   flex: 1;
   display: flex;
   justify-content: space-between;
+  height: 100%;
 `,um=Hh.div`
   --tile-current: orange;
   --tile-0: white;
@@ -240,4 +241,4 @@ body,html {
   flex-direction: column;
   position: relative;
 `;function Rm(){return ge.createElement(ge.Fragment,null,ge.createElement(Tm,null),ge.createElement(Om,null,ge.createElement(zm,null,"Wizardry clone"),ge.createElement(Lm,null,ge.createElement(vm,null),ge.createElement(Nm,null))))}Xf.render(ge.createElement(Rm,null),document.getElementById("app"));
-//# sourceMappingURL=index.a51aeaf1.js.map
+//# sourceMappingURL=index.77719989.js.map
