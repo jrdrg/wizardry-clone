@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 
+import { BREAK_M } from './constants';
 import { MapRenderer } from './MapRenderer';
 import { PartyMembers } from './PartyMembers';
 
@@ -11,12 +12,14 @@ const GlobalStyles = createGlobalStyle`
   --text-color: rgba(200, 200, 200, 1);
 
   --base-padding: 8px;
-  --cube-size: 300px;
+  --cube-size: 40vh;
 
   --minimap-z-index: 1;
   --minimap-height: 15vh;
 
-  --break-m: 900px;
+  @media only screen and (max-width: ${BREAK_M}) {
+    --cube-size: 30vh;
+  }
 }
 
 body,html {

@@ -1,1 +1,1 @@
-export const BREAK_M = '900px';
+export const BREAK_M = '800px';
