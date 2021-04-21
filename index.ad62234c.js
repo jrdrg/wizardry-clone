@@ -212,12 +212,14 @@ function e(e){return e&&e.__esModule?e.default:e}var t,n,r,a,l=!1;function o(e){
   --text-color: rgba(200, 200, 200, 1);
 
   --base-padding: 8px;
-  --cube-size: 300px;
+  --cube-size: 40vh;
 
   --minimap-z-index: 1;
   --minimap-height: 15vh;
 
-  --break-m: 900px;
+  @media only screen and (max-width: ${"900px"}) {
+    --cube-size: 30vh;
+  }
 }
 
 body,html {
@@ -243,4 +245,4 @@ body,html {
   flex-direction: column;
   position: relative;
 `;function Rm(){return ge.createElement(ge.Fragment,null,ge.createElement(Tm,null),ge.createElement(zm,null,ge.createElement(Om,null,"Wizardry clone"),ge.createElement(Lm,null,ge.createElement(vm,null),ge.createElement(Nm,null))))}Xf.render(ge.createElement(Rm,null),document.getElementById("app"));
-//# sourceMappingURL=index.d683351a.js.map
+//# sourceMappingURL=index.ad62234c.js.map
