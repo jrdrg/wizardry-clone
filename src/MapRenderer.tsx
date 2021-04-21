@@ -2,7 +2,11 @@ import React, { useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import mapData from './map.json';
 
-import { convertToMap, directionToDegrees } from './mapUtils';
+import {
+  convertToMap,
+  directionToDegrees,
+  getNeighboringDirections,
+} from './mapUtils';
 import type { Position } from './types';
 import { useMapPosition } from './useMapPosition';
 
@@ -10,6 +14,11 @@ import { Cube } from './Cube';
 import { Minimap } from './Minimap';
 
 const map = convertToMap(mapData.map, mapData.start);
+
+const between = (min: number, max: number, value: number) =>
+  value >= min && value <= max;
+
+const VIEW_RADIUS = 3;
 
 const Container = styled.div`
   &:focus {
@@ -202,8 +211,31 @@ export function MapRenderer() {
               <CameraPosition>
                 {map.data.map((row, y) => {
                   return row.map((tile, x) => {
-                    if (tile === 1) {
-                      return <Cube key={`${x}:${y}`} x={x} y={y} />;
+                    const neighbors = getNeighboringDirections(map, x, y);
+
+                    // don't need to render the entire map, just what we can see
+                    if (
+                      between(
+                        state.position.x - VIEW_RADIUS,
+                        state.position.x + VIEW_RADIUS,
+                        x
+                      ) &&
+                      between(
+                        state.position.y - VIEW_RADIUS,
+                        state.position.y + VIEW_RADIUS,
+                        y
+                      )
+                    ) {
+                      if (tile === 1) {
+                        return (
+                          <Cube
+                            key={`${x}:${y}`}
+                            x={x}
+                            y={y}
+                            neighbors={neighbors}
+                          />
+                        );
+                      }
                     }
                     return null;
                   });

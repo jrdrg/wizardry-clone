@@ -17,6 +17,10 @@ export function isWalkable(map: MapData, x: number, y: number) {
   return isWithinBounds(map, x, y) && map.data[y]?.[x] === 0;
 }
 
+export function isWall(map: MapData, x: number, y: number) {
+  return isWithinBounds(map, x, y) && map.data[y]?.[x] === 1;
+}
+
 export function directionToDegrees(direction: Direction) {
   const degrees = {
     N: 0,
@@ -25,4 +29,25 @@ export function directionToDegrees(direction: Direction) {
     E: -90, //270,
   };
   return degrees[direction];
+}
+
+export function getNeighboringDirections(
+  map: MapData,
+  x: number,
+  y: number
+): Set<Direction> {
+  const neighbors = new Set<Direction>();
+  const neighborCoords = {
+    N: [0, -1],
+    S: [0, 1],
+    E: [1, 0],
+    W: [-1, 0],
+  };
+  Object.entries(neighborCoords).forEach(([dir, [dx, dy]]) => {
+    if (isWall(map, x + dx, y + dy)) {
+      neighbors.add(dir as Direction);
+    }
+  });
+
+  return neighbors;
 }
