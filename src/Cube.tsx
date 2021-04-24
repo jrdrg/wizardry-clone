@@ -1,19 +1,31 @@
 import React from 'react';
 import styled from 'styled-components';
-import { getNeighboringDirections } from './mapUtils';
 
 import { Direction } from './types';
 
-const CubeShape = styled.div<
-  Pick<CubeProps, 'x' | 'y'> & { shouldFade: boolean }
->`
+type Visibility = 'visible' | 'fade-in' | 'fade-out' | 'hidden';
+
+const CubeShape = styled.div<Pick<CubeProps, 'x' | 'y'>>`
   position: absolute;
   top: ${(props) => `calc(${props.y} * var(--cube-size))`};
   left: ${(props) => `calc(${props.x} * var(--cube-size))`};
+`;
 
+const Animation = styled.div<{ fade: Visibility }>`
   & > * {
-    opacity: ${({ shouldFade }) => (shouldFade ? 1 : 0)};
-    transition: 0.2s all;
+    opacity: ${({ fade }) => {
+      switch (fade) {
+        case 'visible':
+          return 1;
+        case 'fade-out':
+          return 0;
+        case 'fade-in':
+          return 0.25;
+        default:
+          return 0;
+      }
+    }};
+    transition: 0.6s opacity, background-color;
   }
 `;
 
@@ -60,36 +72,72 @@ const Back = styled(Face)`
 `;
 
 type CubeProps = {
+  isVisible: boolean;
   neighbors: Set<Direction>;
   x: number;
   y: number;
 };
 
-function useFadeIn() {
-  const [fade, setFade] = React.useState(false);
+function useFadeIn(isVisible: boolean) {
+  const isChanged = React.useRef(false);
+  const [fade, setFade] = React.useState<Visibility>(
+    isVisible ? 'visible' : 'hidden'
+  );
+
+  React.useEffect(() => {
+    if (isChanged.current) {
+      setFade(isVisible ? 'fade-in' : 'fade-out');
+    }
+    isChanged.current = true;
+  }, [isVisible]);
+
   React.useEffect(() => {
     const timeout = setTimeout(() => {
-      setFade(true);
+      if (fade === 'fade-in') {
+        setFade('visible');
+      }
     }, 1);
+
     return () => {
       clearTimeout(timeout);
     };
-  }, []);
+  }, [fade]);
 
-  return fade;
+  const handleTransitionEnd = React.useCallback(
+    (e: React.TransitionEvent<HTMLDivElement>) => {
+      // when the transition animation is done, don't render anymore
+      if (fade === 'fade-out' && e.propertyName === 'opacity') {
+        setFade('hidden');
+      }
+    },
+    [fade]
+  );
+
+  return { fade, handleTransitionEnd };
 }
 
 // Don't bother rendering top and bottom, because we'll never see them anyway
 export function Cube(props: CubeProps) {
-  const { x, y, neighbors } = props;
-  const fade = useFadeIn();
+  const { x, y, neighbors, isVisible } = props;
+  const { fade, handleTransitionEnd } = useFadeIn(isVisible);
+
+  if (fade === 'hidden') {
+    return null;
+  }
+
   // if 2 cubes are next to each other, we can avoid rendering the connecting sides
   return (
-    <CubeShape x={x} y={y} shouldFade={fade}>
-      {!neighbors.has('W') && <Left />}
-      {!neighbors.has('E') && <Right />}
-      {!neighbors.has('N') && <Back />}
-      {!neighbors.has('S') && <Front />}
+    <CubeShape x={x} y={y}>
+      <Animation
+        fade={fade}
+        data-fade={fade}
+        onTransitionEnd={handleTransitionEnd}
+      >
+        {!neighbors.has('W') && <Left />}
+        {!neighbors.has('E') && <Right />}
+        {!neighbors.has('N') && <Back />}
+        {!neighbors.has('S') && <Front />}
+      </Animation>
     </CubeShape>
   );
 }

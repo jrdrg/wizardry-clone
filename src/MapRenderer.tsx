@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { CSSProperties, useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import mapData from './map.json';
 
@@ -7,7 +7,6 @@ import {
   directionToDegrees,
   getNeighboringDirections,
 } from './mapUtils';
-import type { Position } from './types';
 import { useMapPosition } from './useMapPosition';
 
 import { Cube } from './Cube';
@@ -112,10 +111,7 @@ const MapGeometry = styled.div`
   }
 `;
 
-const CameraOffset = styled.div<{ position: Position }>`
-  --x-pos: ${({ position }) => -1 * position.x};
-  --y-pos: ${({ position }) => -1 * position.y};
-
+const CameraOffset = styled.div`
   transition: 0.7s all;
   transform-style: preserve-3d;
   transform: translateX(calc(var(--cube-size) * var(--x-pos)))
@@ -207,14 +203,20 @@ export function MapRenderer() {
             animation={animation}
             degrees={directionToDegrees(state.direction)}
           >
-            <CameraOffset position={state.position}>
+            <CameraOffset
+              style={
+                {
+                  ['--x-pos']: -1 * state.position.x,
+                  ['--y-pos']: -1 * state.position.y,
+                } as CSSProperties
+              }
+            >
               <CameraPosition>
                 {map.data.map((row, y) => {
                   return row.map((tile, x) => {
                     const neighbors = getNeighboringDirections(map, x, y);
-
                     // don't need to render the entire map, just what we can see
-                    if (
+                    const isVisible =
                       between(
                         state.position.x - VIEW_RADIUS,
                         state.position.x + VIEW_RADIUS,
@@ -224,18 +226,18 @@ export function MapRenderer() {
                         state.position.y - VIEW_RADIUS,
                         state.position.y + VIEW_RADIUS,
                         y
-                      )
-                    ) {
-                      if (tile === 1) {
-                        return (
-                          <Cube
-                            key={`${x}:${y}`}
-                            x={x}
-                            y={y}
-                            neighbors={neighbors}
-                          />
-                        );
-                      }
+                      );
+
+                    if (tile === 1) {
+                      return (
+                        <Cube
+                          key={`${x}:${y}`}
+                          x={x}
+                          y={y}
+                          neighbors={neighbors}
+                          isVisible={isVisible}
+                        />
+                      );
                     }
                     return null;
                   });
