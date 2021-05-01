@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { Direction } from './types';
@@ -79,19 +79,19 @@ type CubeProps = {
 };
 
 function useFadeIn(isVisible: boolean) {
-  const isChanged = React.useRef(false);
-  const [fade, setFade] = React.useState<Visibility>(
+  const isChanged = useRef(false);
+  const [fade, setFade] = useState<Visibility>(
     isVisible ? 'visible' : 'hidden'
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isChanged.current) {
       setFade(isVisible ? 'fade-in' : 'fade-out');
     }
     isChanged.current = true;
   }, [isVisible]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const timeout = setTimeout(() => {
       if (fade === 'fade-in') {
         setFade('visible');
@@ -103,7 +103,7 @@ function useFadeIn(isVisible: boolean) {
     };
   }, [fade]);
 
-  const handleTransitionEnd = React.useCallback(
+  const handleTransitionEnd = useCallback(
     (e: React.TransitionEvent<HTMLDivElement>) => {
       // when the transition animation is done, don't render anymore
       if (fade === 'fade-out' && e.propertyName === 'opacity') {
